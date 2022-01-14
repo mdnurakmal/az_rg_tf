@@ -68,11 +68,11 @@ router.post('/create1', async (request, response) => {
 })
 
 
-router.get('/create', async (request, response) => {
+router.post('/create', async (request, response) => {
 
-    console.log(response.body);
+    console.log(response.body["shipping"]["first_name"] + response.body["shipping"]["last_name"] );
 
-    var user = request.query.name;
+    var user = response.body["shipping"]["first_name"] + response.body["shipping"]["last_name"];
     //console.log(SECRET["value"]);
 
     const params = new URLSearchParams();
