@@ -44,6 +44,8 @@ async function main() {
         console.log(err);
         return;
     });;
+
+    
 }
 
 
@@ -61,7 +63,7 @@ router.post('/', (request, response) => {
 router.get('/create', async (request, response) => {
 
     var user = request.query.name;
-    console.log(SECRET["value"]);
+    //console.log(SECRET["value"]);
 
     const params = new URLSearchParams();
     params.append('grant_type', 'client_credentials');
@@ -76,7 +78,6 @@ router.get('/create', async (request, response) => {
 
             const params2 = new URLSearchParams();
             params2.append('location', "Switzerland North");
-            params2.append('Content-Type', "application/json");
 
             const config = {
                 headers: {
