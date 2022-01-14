@@ -74,6 +74,11 @@ router.get('/create', async (request, response) => {
             "resource": "https://management.azure.com"
         }
       })
+      .then(res => {
+        console.log(res)
+        response.statusCode = 401;
+        response.send(res);
+      })
       .catch(error => {
         console.error(error)
         response.statusCode = 401;
