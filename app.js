@@ -78,13 +78,15 @@ router.get('/create', async (request, response) => {
             params2.append('location', "Switzerland North");
             params2.append('Content-Type', "application/json");
 
-            await axios
-            .put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/'+user+'?api-version=2021-04-01', {
+            const config = {
                 headers: {
                     "Authorization": 'Bearer ' + res.data["access_token"],
                     "Content-Type": "application/json"
                 }
-            },params2)
+              }
+
+            await axios
+            .put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/'+user+'?api-version=2021-04-01', config,params2)
             .then(res => {
                 response.statusCode = 200;
                 response.send("done");
