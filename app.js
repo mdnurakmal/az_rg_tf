@@ -73,7 +73,7 @@ router.get('/create', async (request, response) => {
       .then(res => {
  
         response.statusCode = 200;
-        response.send(res.data["access_token");
+        response.send(res.data["access_token"]);
       })
       .catch(error => {
         console.error(error)
