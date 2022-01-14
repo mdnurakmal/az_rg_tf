@@ -69,18 +69,22 @@ router.get('/create', async (request, response) => {
     params.append('client_secret', CLIENTSECRET["value"]);
     params.append('resource', 'https://management.azure.com');
 
+
+
     await axios.post('https://login.microsoftonline.com/892d6304-9ee0-4129-bb11-4c98814808d3/oauth2/token', params)
       .then(async res => {
- 
+
+            const params2 = new URLSearchParams();
+            params2.append('location', "Switzerland North");
+            params2.append('Content-Type', "application/json");
+
             await axios
             .put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/'+user+'?api-version=2021-04-01', {
                 headers: {
                     "Authorization": 'Bearer ' + res.data["access_token"],
                     "Content-Type": "application/json"
                 }
-            },{
-                location: "Switzerland North"
-            })
+            },params2)
             .then(res => {
                 response.statusCode = 200;
                 response.send("done");
