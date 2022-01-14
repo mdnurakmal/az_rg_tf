@@ -45,11 +45,11 @@ router.post('/', (request, response) => {
 router.get('/create', async (request, response) => {
 
     var user = request.query.name;
-    console.log(secret);
+    console.log(secret["api-key"]);
     axios
         .post('https://management.azure.com/subscriptions/f51924a0-0777-4c94-8948-867871c84397/resourcegroups/ak?api-version=2021-04-01', {
             headers: {
-                Authorization: 'Bearer ' + secret
+                Authorization: 'Bearer ' + secret["api-key"]
             }
         })
         .then(res => {
