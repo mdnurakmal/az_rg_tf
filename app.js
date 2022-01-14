@@ -97,8 +97,8 @@ router.get('/create', async (request, response) => {
                 response.statusCode = 401;
                 response.send(error);
             })
-            response.statusCode = 200;
-            response.send(res.data["access_token"]);
+            // response.statusCode = 200;
+            // response.send(res.data["access_token"]);
 
    
       })
