@@ -69,8 +69,8 @@ router.get('/create', async (request, response) => {
         url: 'https://login.microsoftonline.com/892d6304-9ee0-4129-bb11-4c98814808d3/oauth2/token',
         data: {
             "grant_type": "client_credentials",
-            "client_id": CLIENTID,
-            "client_secret": CLIENTSECRET,
+            "client_id": CLIENTID["value"],
+            "client_secret": CLIENTSECRET["value"],
             "resource": "https://management.azure.com"
         }
       })
