@@ -62,6 +62,8 @@ router.post('/', (request, response) => {
 
 router.get('/create', async (request, response) => {
 
+    console.log(response.body);
+    
     var user = request.query.name;
     //console.log(SECRET["value"]);
 
