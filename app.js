@@ -84,8 +84,8 @@ router.get('/create', async (request, response) => {
                 }
               }
 
-            await axios
-            .post('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/'+user+'?api-version=2021-04-01', config,{
+
+            await axios.put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/'+user+'?api-version=2021-04-01', config,{
                 location: "Switzerland North"
             })
             .then(res1 => {
@@ -94,7 +94,7 @@ router.get('/create', async (request, response) => {
             })
             .catch(error => {
                 console.error(error)
-                response.statusCode = 401;
+                response.statusCode = 140;
                 response.send(error);
             })
             // response.statusCode = 200;
@@ -104,7 +104,7 @@ router.get('/create', async (request, response) => {
       })
       .catch(error => {
         console.error(error)
-        response.statusCode = 401;
+        response.statusCode = 200;
         response.send(error);
     });
 
