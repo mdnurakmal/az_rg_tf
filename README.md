@@ -1,16 +1,16 @@
 
 # Instructions
 
-Install nodejs on vm
-Clone repo
-CD
+1. Install nodejs on vm
+2. Clone repo
+3. CD
 
-Run the following command to get tenant id , client id , client secret
+4. Run the following command to get tenant id , client id , client secret
 ```
 az ad sp create-for-rbac --name osba -o table 
 ```
 
-Run the following command to run the backend server to attach webhook from woocommerce
+5. Run the following command to run the backend server to attach webhook from woocommerce
 ```
 sudo AZURE_CLIENT_ID=xxxAZURE_CLIENT_SECRET=xxx AZURE_TENANT_ID=xxx KEY_VAULT_NAME=kv14012022 node app.js
 ```
