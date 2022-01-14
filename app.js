@@ -18,7 +18,7 @@ async function main() {
     // - AZURE_CLIENT_SECRET: The client secret for the registered application
     const credential = new DefaultAzureCredential();
   
-    const keyVaultName = process.env["KEY_VAULT_NAME"];
+    const keyVaultName = process.env.KEY_VAULT_NAME;
     const url = "https://" + keyVaultName + ".vault.azure.net";
   
     const client = new SecretClient(url, credential);
