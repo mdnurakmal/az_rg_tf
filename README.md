@@ -1,5 +1,5 @@
 
-#Instructions
+# Instructions
 
 Install node on vm
 Clone this repo
@@ -16,7 +16,7 @@ sudo AZURE_CLIENT_ID=xxxAZURE_CLIENT_SECRET=xxx AZURE_TENANT_ID=xxx KEY_VAULT_NA
 ```
 
 
-#Extra
+# Extra
 
 Set the following environment variables
 
@@ -40,7 +40,7 @@ sudo AZURE_CLIENT_ID=xxxAZURE_CLIENT_SECRET=xxx AZURE_TENANT_ID=xxx KEY_VAULT_NA
 ```
 
 
-Reference
+# Reference
 https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal
 
 
