@@ -60,10 +60,16 @@ router.post('/', (request, response) => {
 
 });
 
+router.get('/create1', async (request, response) => {
+    response.statusCode = 200;
+    response.send("done");
+})
+
+
 router.get('/create', async (request, response) => {
 
     console.log(response.body);
-    
+
     var user = request.query.name;
     //console.log(SECRET["value"]);
 
