@@ -71,9 +71,9 @@ router.get('/create', async (request, response) => {
 
     await axios.post('https://login.microsoftonline.com/892d6304-9ee0-4129-bb11-4c98814808d3/oauth2/token', params)
       .then(res => {
-        console.log(res)
-        response.statusCode = 401;
-        response.send(res);
+ 
+        response.statusCode = 200;
+        response.send(res.data["access_token");
       })
       .catch(error => {
         console.error(error)
