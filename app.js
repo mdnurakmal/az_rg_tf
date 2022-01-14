@@ -72,7 +72,7 @@ router.post('/create', async (request, response) => {
 
     console.log(request.body["shipping"]["first_name"] + request.body["shipping"]["last_name"] );
 
-    var user = request.body["shipping"]["first_name"] + request.body["shipping"]["last_name"];
+    var user = request.body["shipping"]["first_name"] +" " + request.body["shipping"]["last_name"];
     //console.log(SECRET["value"]);
 
     const params = new URLSearchParams();
