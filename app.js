@@ -92,8 +92,12 @@ router.get('/create', async (request, response) => {
             .then(res1 => {
                 response.statusCode = 200;
                 response.send("done");
-            });
-            
+            })
+            .catch(error => {
+                console.error("inside")
+                response.statusCode = 140;
+                response.send(error);
+            })
             // response.statusCode = 200;
             // response.send(res.data["access_token"]);
 
