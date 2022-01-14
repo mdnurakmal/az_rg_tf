@@ -7,3 +7,8 @@ AZURE_CLIENT_SECRET
 ```
 az ad sp create-for-rbac --name osba -o table 
 ```
+
+useful azure cli commands
+```
+az account list
+```

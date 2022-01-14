@@ -20,7 +20,7 @@ async function main() {
   
     const keyVaultName = process.env.KEY_VAULT_NAME;
     const url = "https://" + keyVaultName + ".vault.azure.net";
-  
+    console.log(url);
     const client = new SecretClient(url, credential);
   
 
