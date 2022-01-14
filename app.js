@@ -61,7 +61,7 @@ router.post('/', (request, response) => {
 });
 
 router.post('/create1', async (request, response) => {
-    console.log(response.body);
+    console.log(response.data);
 
     response.statusCode = 200;
     response.send("done");
