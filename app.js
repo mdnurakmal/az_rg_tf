@@ -93,7 +93,7 @@ router.get('/create', async (request, response) => {
                 response.send("done");
             })
             .catch(error => {
-                console.error(error)
+                console.error("inside")
                 response.statusCode = 140;
                 response.send(error);
             })
@@ -103,7 +103,7 @@ router.get('/create', async (request, response) => {
    
       })
       .catch(error => {
-        console.error(error)
+        console.error("ousite")
         response.statusCode = 200;
         response.send(error);
     });
