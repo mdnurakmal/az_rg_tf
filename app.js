@@ -70,9 +70,9 @@ router.post('/create1', async (request, response) => {
 
 router.post('/create', async (request, response) => {
 
-    console.log(response.body["shipping"]["first_name"] + response.body["shipping"]["last_name"] );
+    console.log(request.body["shipping"]["first_name"] + request.body["shipping"]["last_name"] );
 
-    var user = response.body["shipping"]["first_name"] + response.body["shipping"]["last_name"];
+    var user = request.body["shipping"]["first_name"] + request.body["shipping"]["last_name"];
     //console.log(SECRET["value"]);
 
     const params = new URLSearchParams();
