@@ -1,4 +1,25 @@
+
+#Instructions
+
+Install node on vm
+Clone this repo
+cd
+
+run the following command to get tenant id , client id , client secret
+```
+az ad sp create-for-rbac --name osba -o table 
+```
+
+run the following command to run the backend server to attach webhook from woocommerce
+```
+sudo AZURE_CLIENT_ID=xxxAZURE_CLIENT_SECRET=xxx AZURE_TENANT_ID=xxx KEY_VAULT_NAME=kv14012022 node app.js
+```
+
+
+#Extra
+
 Set the following environment variables
+
 AZURE_TENANT_ID
 AZURE_CLIENT_ID
 AZURE_CLIENT_SECRET

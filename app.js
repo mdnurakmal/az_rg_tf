@@ -48,7 +48,6 @@ async function main() {
 
 }
 
-
 main();
 
 app.use(bodyParser.urlencoded({
@@ -60,20 +59,9 @@ router.post('/', (request, response) => {
 
 });
 
-router.post('/create1', async (request, response) => {
-    console.log(request.body);
-
-    response.statusCode = 200;
-    response.send("done");
-})
-
-
 router.post('/create', async (request, response) => {
 
-    console.log(request.body["shipping"]["first_name"] + request.body["shipping"]["last_name"] );
-
-    var user = request.body["shipping"]["first_name"] +"-" + request.body["shipping"]["last_name"];
-    //console.log(SECRET["value"]);
+    var user = request.body["shipping"]["first_name"] + "-" + request.body["shipping"]["last_name"];
 
     const params = new URLSearchParams();
     params.append('grant_type', 'client_credentials');
