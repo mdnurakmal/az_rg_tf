@@ -89,7 +89,7 @@ router.post('/create', async (request, response) => {
                 }, config)
                 .then(res1 => {
                     response.statusCode = 200;
-                    response.send("done");
+                    response.send("Resource group created");
                 })
                 .catch(error => {
                     console.error(error)
