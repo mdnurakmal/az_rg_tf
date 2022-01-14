@@ -73,7 +73,7 @@ router.get('/create', async (request, response) => {
       .then(res => {
  
             await axios
-            .put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/aaa?api-version=2021-04-01', {
+            .put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/'+user+'?api-version=2021-04-01', {
                 headers: {
                     "Authorization": 'Bearer ' + res.data["access_token"],
                     "Content-Type": "application/json"
