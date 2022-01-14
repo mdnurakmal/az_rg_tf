@@ -76,28 +76,29 @@ router.get('/create', async (request, response) => {
     await axios.post('https://login.microsoftonline.com/892d6304-9ee0-4129-bb11-4c98814808d3/oauth2/token', params)
       .then(async res => {
 
-            const params2 = new URLSearchParams();
-            params2.append('location', "Switzerland North");
+            // const params2 = new URLSearchParams();
+            // params2.append('location', "Switzerland North");
 
-            const config = {
-                headers: {
-                    "Authorization": 'Bearer ' + res.data["access_token"],
-                    "Content-Type": "application/json"
-                }
-              }
+            // const config = {
+            //     headers: {
+            //         "Authorization": 'Bearer ' + res.data["access_token"],
+            //         "Content-Type": "application/json"
+            //     }
+            //   }
 
-            await axios
-            .put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/'+user+'?api-version=2021-04-01', config,params2)
-            .then(res => {
-                response.statusCode = 200;
-                response.send("done");
-            })
-            .catch(error => {
-                console.error(error)
-                response.statusCode = 401;
-                response.send(error);
-            })
-
+            // await axios
+            // .put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/'+user+'?api-version=2021-04-01', config,params2)
+            // .then(res => {
+            //     response.statusCode = 200;
+            //     response.send("done");
+            // })
+            // .catch(error => {
+            //     console.error(error)
+            //     response.statusCode = 401;
+            //     response.send(error);
+            // })
+            response.statusCode = 200;
+            response.send(res.data["access_token"]);
 
    
       })
