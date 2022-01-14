@@ -23,9 +23,9 @@ async function main() {
   
     const client = new SecretClient(url, credential);
   
-    
+
     // Read the secret we created
-    const secret = await client.getSecret(api-token).catch(function(err) {
+    const secret = await client.getSecret("api-token").catch(function(err) {
 
         console.log(err);
         return;
