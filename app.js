@@ -63,17 +63,13 @@ router.get('/create', async (request, response) => {
     var user = request.query.name;
     console.log(SECRET["value"]);
 
+    const params = new URLSearchParams();
+    params.append('grant_type', 'client_credentials');
+    params.append('client_id', CLIENTID["value"]);
+    params.append('client_secret', CLIENTSECRET["value"]);
+    params.append('resource', 'https://management.azure.com');
 
-    await axios({
-        method: 'post',
-        url: 'https://login.microsoftonline.com/892d6304-9ee0-4129-bb11-4c98814808d3/oauth2/token',
-        data: {
-            "grant_type": "client_credentials",
-            "client_id": CLIENTID["value"],
-            "client_secret": CLIENTSECRET["value"],
-            "resource": "https://management.azure.com"
-        }
-      })
+    await axios.post('https://login.microsoftonline.com/892d6304-9ee0-4129-bb11-4c98814808d3/oauth2/token', params)
       .then(res => {
         console.log(res)
         response.statusCode = 401;
