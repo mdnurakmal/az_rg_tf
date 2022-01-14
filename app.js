@@ -18,7 +18,7 @@ var SECRET;
 var CLIENTID;
 var CLIENTSECRET;
 
-
+// get service principle credentials
 async function main() {
 
     const credential = new DefaultAzureCredential();
@@ -31,19 +31,19 @@ async function main() {
 
         console.log(err);
         return;
-    });;
+    });
 
     CLIENTID = await client.getSecret("CLIENTID").catch(function(err) {
 
         console.log(err);
         return;
-    });;
+    });
 
     CLIENTSECRET = await client.getSecret("CLIENTSECRET").catch(function(err) {
 
         console.log(err);
         return;
-    });;
+    });
 
 
 }
@@ -55,12 +55,16 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
+
 router.post('/', (request, response) => {
 
 });
 
+
+// api listening to woocomerce webhook
 router.post('/create', async (request, response) => {
 
+    // get customer name from check out info
     var user = request.body["shipping"]["first_name"] + "-" + request.body["shipping"]["last_name"];
 
     const params = new URLSearchParams();
@@ -68,8 +72,6 @@ router.post('/create', async (request, response) => {
     params.append('client_id', CLIENTID["value"]);
     params.append('client_secret', CLIENTSECRET["value"]);
     params.append('resource', 'https://management.azure.com');
-
-
 
     await axios.post('https://login.microsoftonline.com/892d6304-9ee0-4129-bb11-4c98814808d3/oauth2/token', params)
         .then(async res => {
