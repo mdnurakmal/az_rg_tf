@@ -13,7 +13,12 @@ const {
 } = require("@azure/identity");
 const dotenv = require("dotenv");
 dotenv.config();
-var secret;
+
+var SECRET;
+var CLIENTID;
+var CLIENTSECRET;
+
+
 async function main() {
 
     const credential = new DefaultAzureCredential();
@@ -22,14 +27,25 @@ async function main() {
     const url = "https://" + keyVaultName + ".vault.azure.net";
     const client = new SecretClient(url, credential);
 
+    SECRET = await client.getSecret("api-key").catch(function(err) {
 
-    // Read the secret we created
-    secret = await client.getSecret("api-key").catch(function(err) {
+        console.log(err);
+        return;
+    });;
+
+    CLIENTID = await client.getSecret("CLIENTID").catch(function(err) {
+
+        console.log(err);
+        return;
+    });;
+
+    CLIENTSECRET = await client.getSecret("CLIENTSECRET").catch(function(err) {
 
         console.log(err);
         return;
     });;
 }
+
 
 main();
 
@@ -45,18 +61,37 @@ router.post('/', (request, response) => {
 router.get('/create', async (request, response) => {
 
     var user = request.query.name;
-    console.log(secret["value"]);
-    axios
-        .put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/aaa?api-version=2021-04-01', {
-            headers: {
-                "Authorization": 'Bearer ' + secret["value"],
-                "Content-Type": "application/json"
-            }
-        },{
-            //api_key: process.env.API_KEY,
-            location: "Switzerland North"
+    console.log(SECRET["value"]);
+
+    await axios
+        .post('https://login.microsoftonline.com/892d6304-9ee0-4129-bb11-4c98814808d3/oauth2/token',{
+            "grant_type": "client_credentials",
+                "client_id": CLIENTID,
+                "client_secret": CLIENTSECRET,
+                "resource": "https://management.azure.com"
         })
         .then(res => {
+
+            await axios
+            .put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/aaa?api-version=2021-04-01', {
+                headers: {
+                    "Authorization": 'Bearer ' + res.data["access_token"],
+                    "Content-Type": "application/json"
+                }
+            },{
+                location: "Switzerland North"
+            })
+            .then(res => {
+                response.status(200);
+                response.send("Resource group created");
+            })
+            .catch(error => {
+                console.error(error)
+                response.statusCode = 401;
+                response.send(error);
+            })
+    
+
             response.status(200);
             response.send(res.data["Resource group created"]);
         })
@@ -66,6 +101,8 @@ router.get('/create', async (request, response) => {
             response.send(error);
         })
 
+
+   
 
 
 });
