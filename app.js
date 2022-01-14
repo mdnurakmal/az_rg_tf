@@ -60,7 +60,7 @@ router.post('/', (request, response) => {
 
 });
 
-router.get('/create1', async (request, response) => {
+router.post('/create1', async (request, response) => {
     console.log(response.body);
 
     response.statusCode = 200;
