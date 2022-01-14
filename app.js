@@ -49,8 +49,12 @@ router.get('/create', async (request, response) => {
     axios
         .put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/aaa?api-version=2021-04-01', {
             headers: {
-                Authorization: 'Bearer ' + secret["value"]
+                "Authorization": 'Bearer ' + secret["value"],
+                "Content-Type": "application/json"
             }
+        },{
+            //api_key: process.env.API_KEY,
+            location: "Switzerland North"
         })
         .then(res => {
             response.status(200);
