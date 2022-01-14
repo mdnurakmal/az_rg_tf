@@ -66,7 +66,7 @@ router.post('/create', async (request, response) => {
 
     // get customer name from check out info
     var user = request.body["id"];
-
+    console.log(user);
     const params = new URLSearchParams();
     params.append('grant_type', 'client_credentials');
     params.append('client_id', CLIENTID["value"]);
