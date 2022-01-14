@@ -86,9 +86,10 @@ router.get('/create', async (request, response) => {
 
               console.log(config);
 
-            axios.put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/'+user+'?api-version=2021-04-01', config,{
+            axios.put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/'+user+'?api-version=2021-04-01', {
                 location: "Switzerland North"
-            })
+            }
+            , config)
             .then(res1 => {
                 response.statusCode = 200;
                 response.send("done");
