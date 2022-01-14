@@ -1,22 +1,25 @@
 
 # Instructions
 
-Install node on vm
-Clone this repo
-cd
+Install nodejs on vm
+Clone repo
+CD
 
-run the following command to get tenant id , client id , client secret
+Run the following command to get tenant id , client id , client secret
 ```
 az ad sp create-for-rbac --name osba -o table 
 ```
 
-run the following command to run the backend server to attach webhook from woocommerce
+Run the following command to run the backend server to attach webhook from woocommerce
 ```
 sudo AZURE_CLIENT_ID=xxxAZURE_CLIENT_SECRET=xxx AZURE_TENANT_ID=xxx KEY_VAULT_NAME=kv14012022 node app.js
 ```
 
 
 # Extra
+
+Create service principle , assign contributor role 
+Create key vault to store service princile credentials
 
 Set the following environment variables
 
@@ -32,7 +35,6 @@ az ad sp create-for-rbac --name osba -o table
 Useful azure cli commands
 ```
 az account list
-az login --service-principal -u xxx -p xxx--tenant xxx --allow-no-subsciptions
 az login --service-principal -u xxx -p xxx --tenant xxx
 
 sudo AZURE_CLIENT_ID=xxxAZURE_CLIENT_SECRET=xxx AZURE_TENANT_ID=xxx KEY_VAULT_NAME=kv14012022 node app.js
