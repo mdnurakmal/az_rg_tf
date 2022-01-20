@@ -18,6 +18,8 @@ var SECRET;
 var CLIENTID;
 var CLIENTSECRET;
 
+console.log("Running node");
+
 // get service principle credentials
 async function main() {
 
