@@ -85,8 +85,8 @@ router.post('/webhook', (request, response) => {
             }
             
             
-            var resourceGroup = request["resourceGroup"]
-            var orderid =  request["orderid"]
+            var resourceGroup = request.body["resourceGroup"]
+            var orderid =  request.body["orderid"]
             await axios.put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/'+ resourceGroup + '/providers/Microsoft.OperationalInsights/workspaces/'+orderid+'loganalytics?api-version=2021-06-01', {
                 location: "Switzerland North"
             }, config)
