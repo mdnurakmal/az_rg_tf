@@ -89,10 +89,10 @@ router.post('/create_logws', async (request, response) => {
 
             var resourceGroup = request.body["resourceGroup"]
             var orderid = request.body["orderid"]
-            await axios.put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/' + resourceGroup + '/providers/Microsoft.OperationalInsights/workspaces/' + orderid + 'loganalytics?api-version=2021-06-01', {
-                    location: "Switzerland North"
-                }, config)
-                .then(async res2 => {
+            // await axios.put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/' + resourceGroup + '/providers/Microsoft.OperationalInsights/workspaces/' + orderid + 'loganalytics?api-version=2021-06-01', {
+            //         location: "Switzerland North"
+            //     }, config)
+            //     .then(async res2 => {
                     await axios.post('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/swiss_44/providers/Microsoft.OperationalInsights/workspaces/44loganalytics/sharedKeys?api-version=2020-08-01',
                     config)
                     .then(async res3 => {
@@ -115,12 +115,12 @@ router.post('/create_logws', async (request, response) => {
                     // console.log(res2.data["properties"]["customerId"])
                     // response.send(res2.data["properties"]["customerId"]);
 
-                })
-                .catch(error => {
-                    console.error(error)
-                    response.statusCode = 440;
-                    response.send(error);
-                })
+                // })
+                // .catch(error => {
+                //     console.error(error)
+                //     response.statusCode = 440;
+                //     response.send(error);
+                // })
 
 
         })
