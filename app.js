@@ -159,7 +159,7 @@ router.post('/create', async (request, response) => {
                         }, config)
                         .then(async res2 => {
 
-                            await axios.post('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/' + user + '/providers/Microsoft.OperationalInsights/workspaces/' + orderid + '/sharedKeys?api-version=2020-08-01',
+                            await axios.post('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/swiss_44/providers/Microsoft.OperationalInsights/workspaces/44loganalytics/sharedKeys?api-version=2020-08-01',
                             config)
                             .then(res3 => {
                                 // send primary key to email
@@ -170,7 +170,7 @@ router.post('/create', async (request, response) => {
                                 //     "primarySharedKey":res3.data["primarySharedKey"],
                                 //     "workspaceid":res2.data["properties"]["customerId"]
                                 // }
-                                response.send(res3.data["primarySharedKey"]);
+                                response.send("ok");
                             })
                             .catch(error => {
                                 console.error(error)
