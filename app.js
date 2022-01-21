@@ -91,10 +91,10 @@ router.post('/webhook', (request, response) => {
                 location: "Switzerland North"
             }, config)
             .then(res1 => {
-                console.log(res1.body["properties"]["customerId"])
+                console.log(res1.data["properties"]["customerId"])
                 
                 response.statusCode = 200;
-                response.send(res1.body["properties"]["customerId"]);
+                response.send(res1.data["properties"]["customerId"]);
 
                         
                 console.log(request.body)
