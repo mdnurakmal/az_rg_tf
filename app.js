@@ -66,6 +66,31 @@ router.post('/webhook', (request, response) => {
     response.send("Resource group created");
 });
 
+router.post('/loganalytic', (request, response) => {
+
+    axios.put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/'+ resourceGroup + '/providers/Microsoft.OperationalInsights/workspaces/'+orderid+'loganalytics?api-version=2021-06-01', {
+        location: "Switzerland North"
+    }, config)
+    .then(res1 => {
+        console.log(res1.body["properties"]["customerId"])
+        
+        response.statusCode = 200;
+        response.send(res1.body["properties"]["customerId"]);
+    })
+    .catch(error => {
+        console.error(error)
+        response.statusCode = 440;
+        response.send(error);
+    })
+
+    console.log(request.body)
+    console.log(request.body["event"]["data"]["correlationId"])
+    console.log(request.body["event"]["data"]["status"])
+    response.statusCode = 200;
+    response.send("Resource group created");
+});
+
+
 
 router.post('/', (request, response) => {
 
