@@ -66,7 +66,9 @@ router.post('/webhook', (request, response) => {
     response.send("Resource group created");
 });
 
- router.post('/loganalytic', async (request, response) => {
+// create log analytics workspace
+
+router.post('/create_logws', async (request, response) => {
     const params = new URLSearchParams();
     params.append('grant_type', 'client_credentials');
     params.append('client_id', CLIENTID["value"]);
@@ -83,40 +85,36 @@ router.post('/webhook', (request, response) => {
                     "Content-Type": "application/json"
                 }
             }
-            
-            
+
+
             var resourceGroup = request.body["resourceGroup"]
-            var orderid =  request.body["orderid"]
-            await axios.put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/'+ resourceGroup + '/providers/Microsoft.OperationalInsights/workspaces/'+orderid+'loganalytics?api-version=2021-06-01', {
-                location: "Switzerland North"
-            }, config)
-            .then(res1 => {
-                console.log(res1.data["properties"]["customerId"])
-                
-                response.statusCode = 200;
-                response.send(res1.data["properties"]["customerId"]);
+            var orderid = request.body["orderid"]
+            await axios.put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/' + resourceGroup + '/providers/Microsoft.OperationalInsights/workspaces/' + orderid + 'loganalytics?api-version=2021-06-01', {
+                    location: "Switzerland North"
+                }, config)
+                .then(res1 => {
+                    console.log(res1.data["properties"]["customerId"])
 
-                        
-                console.log(request.body)
-                console.log(request.body["event"]["data"]["correlationId"])
-                console.log(request.body["event"]["data"]["status"])
-            })
-            .catch(error => {
-                console.error(error)
-                response.statusCode = 440;
-                response.send(error);
-            })
+                    response.statusCode = 200;
+                    response.send(res1.data["properties"]["customerId"]);
 
-            
+                })
+                .catch(error => {
+                    console.error(error)
+                    response.statusCode = 440;
+                    response.send(error);
+                })
+
+
         })
-            .catch(error => {
-                console.error(error)
-                response.statusCode = 200;
-                response.send(error);
-            });
+        .catch(error => {
+            console.error(error)
+            response.statusCode = 200;
+            response.send(error);
+        });
 
 
- 
+
 });
 
 
@@ -130,7 +128,7 @@ router.post('/', (request, response) => {
 router.post('/create', async (request, response) => {
 
     // get customer name from check out info
-    var user = request.body["id"];
+    var user = "swiss_" + request.body["id"];
     console.log(user);
     const params = new URLSearchParams();
     params.append('grant_type', 'client_credentials');
@@ -149,10 +147,30 @@ router.post('/create', async (request, response) => {
                 }
             }
 
-            await axios.put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/swiss_' + user + '?api-version=2021-04-01', {
+            await axios.put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/' + user + '?api-version=2021-04-01', {
                     location: "Switzerland North"
                 }, config)
                 .then(res1 => {
+
+                    var orderid = request.body["id"] + "loganalytics"
+                    await axios.put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/' + user + '/providers/Microsoft.OperationalInsights/workspaces/' + orderid + 'loganalytics?api-version=2021-06-01', {
+                            location: "Switzerland North"
+                        }, config)
+                        .then(res1 => {
+
+                            // send primary key to email
+                            console.log(res1.data["properties"]["customerId"])
+        
+                            response.statusCode = 200;
+                            response.send(res1.data["properties"]["customerId"]);
+        
+                        })
+                        .catch(error => {
+                            console.error(error)
+                            response.statusCode = 440;
+                            response.send(error);
+                        })
+        
                     response.statusCode = 200;
                     response.send("Resource group created");
                 })
@@ -170,22 +188,6 @@ router.post('/create', async (request, response) => {
         });
 
 });
-
-async function createLogAnalyticsWB(resourceGroup,orderid)
-{
-    axios.put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/'+ resourceGroup + '/providers/Microsoft.OperationalInsights/workspaces/'+orderid+'loganalytics?api-version=2021-06-01', {
-        location: "Switzerland North"
-    }, config)
-    .then(res1 => {
-        response.statusCode = 200;
-        response.send("Resource group created");
-    })
-    .catch(error => {
-        console.error(error)
-        response.statusCode = 440;
-        response.send(error);
-    })
-}
 
 app.use("/", router);
 
