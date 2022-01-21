@@ -58,7 +58,10 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 router.post('/webhook', (request, response) => {
+
     console.log(request.body)
+    console.log(request.body["event"]["data"]["correlationId"])
+    console.log(request.body["event"]["data"]["status"])
     response.statusCode = 200;
     response.send("Resource group created");
 });
