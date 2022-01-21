@@ -95,19 +95,21 @@ router.post('/webhook', (request, response) => {
                 
                 response.statusCode = 200;
                 response.send(res1.body["properties"]["customerId"]);
+
+                        
+                console.log(request.body)
+                console.log(request.body["event"]["data"]["correlationId"])
+                console.log(request.body["event"]["data"]["status"])
+
+
+            
             })
             .catch(error => {
                 console.error(error)
                 response.statusCode = 440;
                 response.send(error);
             })
-        
-            console.log(request.body)
-            console.log(request.body["event"]["data"]["correlationId"])
-            console.log(request.body["event"]["data"]["status"])
-            response.statusCode = 200;
-            response.send("Resource group created");
-            
+
             
         })
             .catch(error => {
