@@ -67,7 +67,7 @@ router.post('/webhook', (request, response) => {
 });
 
  router.post('/loganalytic', async (request, response) => {
-
+    const params = new URLSearchParams();
     params.append('grant_type', 'client_credentials');
     params.append('client_id', CLIENTID["value"]);
     params.append('client_secret', CLIENTSECRET["value"]);
