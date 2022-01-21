@@ -159,27 +159,27 @@ router.post('/create', async (request, response) => {
                         }, config)
                         .then(async res2 => {
 
-                            // await axios.post('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/' + user + '/providers/Microsoft.OperationalInsights/workspaces/' + orderid + '/sharedKeys?api-version=2020-08-01',
-                            // config)
-                            // .then(async res3 => {
-                            //     // send primary key to email
-                            //     console.log(res2.data["properties"]["customerId"])
+                            await axios.put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/' + user + '/providers/Microsoft.OperationalInsights/workspaces/' + orderid + '/sharedKeys?api-version=2020-08-01',
+                            config)
+                            .then(async res3 => {
+                                // send primary key to email
+                                console.log(res2.data["properties"]["customerId"])
                                 
-                            //     response.statusCode = 200;
-                            //     var rs = {
-                            //         "primarySharedKey":res3.data["primarySharedKey"],
-                            //         "workspaceid":res2.data["properties"]["customerId"]
-                            //     }
-                            //     response.send(rs);
-                            // })
-                            // .catch(error => {
-                            //     console.error(error)
-                            //     response.statusCode = 440;
-                            //     response.send(error);
-                            // })
+                                response.statusCode = 200;
+                                var rs = {
+                                    "primarySharedKey":res3.data["primarySharedKey"],
+                                    "workspaceid":res2.data["properties"]["customerId"]
+                                }
+                                response.send(rs);
+                            })
+                            .catch(error => {
+                                console.error(error)
+                                response.statusCode = 440;
+                                response.send(error);
+                            })
 
-                            console.log(res2.data["properties"]["customerId"])
-                            response.send(res2.data["properties"]["customerId"]);
+                            // console.log(res2.data["properties"]["customerId"])
+                            // response.send(res2.data["properties"]["customerId"]);
         
                         })
                         .catch(error => {

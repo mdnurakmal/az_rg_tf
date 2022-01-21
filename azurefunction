@@ -1,0 +1,23 @@
+const axios = require('axios');
+module.exports = async function(context, eventGridEvent) {
+    context.log(typeof eventGridEvent);
+    context.log(eventGridEvent);
+    try {
+        await axios.post('http://20.203.194.251/webhook', {
+                "event": eventGridEvent,
+                "type": typeof eventGridEvent,
+            })
+            .then(res => {
+                console.log(res);
+                context.res = {
+                    // status: 200, /* Defaults to 200 */
+                    body: "ok"
+                };
+
+            })
+            .catch(err => context.log.error(res));
+    } catch (error) {
+        // If the promise rejects, an error will be thrown and caught here
+        context.log.error(error);
+    }
+}
