@@ -85,8 +85,8 @@ router.post('/webhook', (request, response) => {
             }
             
             
-            var resourceGroup = "swiss_18"
-            var orderid = "100q"
+            var resourceGroup = request["resourceGroup"]
+            var orderid =  request["orderid"]
             await axios.put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/'+ resourceGroup + '/providers/Microsoft.OperationalInsights/workspaces/'+orderid+'loganalytics?api-version=2021-06-01', {
                 location: "Switzerland North"
             }, config)
@@ -100,9 +100,6 @@ router.post('/webhook', (request, response) => {
                 console.log(request.body)
                 console.log(request.body["event"]["data"]["correlationId"])
                 console.log(request.body["event"]["data"]["status"])
-
-
-            
             })
             .catch(error => {
                 console.error(error)
@@ -152,7 +149,7 @@ router.post('/create', async (request, response) => {
                 }
             }
 
-            axios.put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/swiss_' + user + '?api-version=2021-04-01', {
+            await axios.put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/swiss_' + user + '?api-version=2021-04-01', {
                     location: "Switzerland North"
                 }, config)
                 .then(res1 => {
