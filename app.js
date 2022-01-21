@@ -156,13 +156,28 @@ router.post('/create', async (request, response) => {
                     await axios.put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/' + user + '/providers/Microsoft.OperationalInsights/workspaces/' + orderid + 'loganalytics?api-version=2021-06-01', {
                             location: "Switzerland North"
                         }, config)
-                        .then(res1 => {
+                        .then(async res2 => {
 
-                            // send primary key to email
-                            console.log(res1.data["properties"]["customerId"])
-        
-                            response.statusCode = 200;
-                            response.send(res1.data["properties"]["customerId"]);
+                            await axios.post('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/' + user + '/providers/Microsoft.OperationalInsights/workspaces/' + orderid + '/sharedKeys?api-version=2020-08-01',
+                            config)
+                            .then(async res3 => {
+                                // send primary key to email
+                                console.log(res2.data["properties"]["customerId"])
+                                
+                                response.statusCode = 200;
+                                var rs = {
+                                    "primarySharedKey":res3.data["primarySharedKey"],
+                                    "workspaceid":res2.data["properties"]["customerId"]
+                                }
+                                response.send(rs);
+                            })
+                            .catch(error => {
+                                console.error(error)
+                                response.statusCode = 440;
+                                response.send(error);
+                            })
+
+                  
         
                         })
                         .catch(error => {
@@ -171,8 +186,8 @@ router.post('/create', async (request, response) => {
                             response.send(error);
                         })
         
-                    response.statusCode = 200;
-                    response.send("Resource group created");
+                    // response.statusCode = 200;
+                    // response.send("Resource group created");
                 })
                 .catch(error => {
                     console.error(error)
