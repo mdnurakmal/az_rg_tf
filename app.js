@@ -67,28 +67,57 @@ router.post('/webhook', (request, response) => {
 });
 
 router.post('/loganalytic', (request, response) => {
-    var resourceGroup = "ssss"
-    var orderid = "1000"
-    axios.put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/'+ resourceGroup + '/providers/Microsoft.OperationalInsights/workspaces/'+orderid+'loganalytics?api-version=2021-06-01', {
-        location: "Switzerland North"
-    }, config)
-    .then(res1 => {
-        console.log(res1.body["properties"]["customerId"])
-        
-        response.statusCode = 200;
-        response.send(res1.body["properties"]["customerId"]);
-    })
-    .catch(error => {
-        console.error(error)
-        response.statusCode = 440;
-        response.send(error);
-    })
 
-    console.log(request.body)
-    console.log(request.body["event"]["data"]["correlationId"])
-    console.log(request.body["event"]["data"]["status"])
-    response.statusCode = 200;
-    response.send("Resource group created");
+    params.append('grant_type', 'client_credentials');
+    params.append('client_id', CLIENTID["value"]);
+    params.append('client_secret', CLIENTSECRET["value"]);
+    params.append('resource', 'https://management.azure.com');
+
+    await axios.post('https://login.microsoftonline.com/892d6304-9ee0-4129-bb11-4c98814808d3/oauth2/token', params)
+        .then(async res => {
+
+
+            const config = {
+                headers: {
+                    "Authorization": 'Bearer ' + res.data["access_token"],
+                    "Content-Type": "application/json"
+                }
+            }
+            
+            
+            var resourceGroup = "ssss"
+            var orderid = "1000"
+            axios.put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/'+ resourceGroup + '/providers/Microsoft.OperationalInsights/workspaces/'+orderid+'loganalytics?api-version=2021-06-01', {
+                location: "Switzerland North"
+            }, config)
+            .then(res1 => {
+                console.log(res1.body["properties"]["customerId"])
+                
+                response.statusCode = 200;
+                response.send(res1.body["properties"]["customerId"]);
+            })
+            .catch(error => {
+                console.error(error)
+                response.statusCode = 440;
+                response.send(error);
+            })
+        
+            console.log(request.body)
+            console.log(request.body["event"]["data"]["correlationId"])
+            console.log(request.body["event"]["data"]["status"])
+            response.statusCode = 200;
+            response.send("Resource group created");
+            
+            
+        })
+            .catch(error => {
+                console.error(error)
+                response.statusCode = 200;
+                response.send(error);
+            });
+
+
+ 
 });
 
 
