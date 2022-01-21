@@ -153,7 +153,7 @@ router.post('/create', async (request, response) => {
                 .then(async res1 => {
 
                     var orderid = request.body["id"] + "loganalytics"
-                    await axios.put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/' + user + '/providers/Microsoft.OperationalInsights/workspaces/' + orderid + 'loganalytics?api-version=2021-06-01', {
+                    await axios.put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/' + user + '/providers/Microsoft.OperationalInsights/workspaces/' + orderid + '?api-version=2021-06-01', {
                             location: "Switzerland North"
                         }, config)
                         .then(async res2 => {
