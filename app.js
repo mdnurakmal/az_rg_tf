@@ -66,7 +66,7 @@ router.post('/webhook', (request, response) => {
     response.send("Resource group created");
 });
 
-router.post('/loganalytic', (request, response) => {
+ router.post('/loganalytic', async (request, response) => {
 
     params.append('grant_type', 'client_credentials');
     params.append('client_id', CLIENTID["value"]);
