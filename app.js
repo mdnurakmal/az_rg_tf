@@ -206,6 +206,7 @@ router.post('/create', async (request, response) => {
                                         "primarySharedKey": res3.data["primarySharedKey"],
                                         "workspaceid": res2.data["properties"]["customerId"]
                                     }
+                                    sendEmail(rs);
                                     response.send(rs);
                                 })
                                 .catch(error => {
@@ -252,8 +253,8 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 const msg = {
   to: 'inexisted@gmail.com', // Change to your recipient
   from: 'inexisted@gmail.com', // Change to your verified sender
-  subject: 'Sending with SendGrid is Fun',
-  html: '<strong>'+rs["email"]+'</strong>',
+  subject: 'Sending from Azure',
+  html: '<strong>primarySharedKey: '+rs["primarySharedKey"]+'</strong><br>'+'<strong>workspaceid: '+rs["workspaceid"]+'</strong><br>'
 }
 
 sgMail
