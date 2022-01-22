@@ -18,7 +18,7 @@ dotenv.config();
 var SECRET;
 var CLIENTID;
 var CLIENTSECRET;
-
+var SENDGRID_API_KEY;
 console.log("Running node");
 
 // get service principle credentials

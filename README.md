@@ -41,7 +41,10 @@ sudo AZURE_CLIENT_ID=xxxAZURE_CLIENT_SECRET=xxx AZURE_TENANT_ID=xxx KEY_VAULT_NA
 ```
 
 Create the following secret in azure
+SENDGRID-API-KEY=<Your API Key>
 export SENDGRID_API_KEY=<Your API Key>
+
+Give registered app access to key vault
 
 # Reference
 https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal
