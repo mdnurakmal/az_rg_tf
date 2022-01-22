@@ -255,14 +255,14 @@ router.post('/create', async (request, response) => {
 
 function sendEmail(rs)
 {
-
+console.log(SENDGRID_API_KEY)
 sgMail.setApiKey(SENDGRID_API_KEY)
 
 const msg = {
   to: 'inexisted@gmail.com', // Change to your recipient
   from: 'inexisted@gmail.com', // Change to your verified sender
   subject: 'Sending with SendGrid is Fun',
-  text: rs,
+  text: rs["email"],
   html: '<strong>and easy to do anywhere, even with Node.js</strong>',
 }
 
