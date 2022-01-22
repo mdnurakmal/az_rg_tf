@@ -241,27 +241,26 @@ router.post('/create', async (request, response) => {
 
 
 
-function sendEmail(rs)
-{
-console.log(process.env.SENDGRID_API_KEY)
-sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+function sendEmail(rs) {
+    console.log(process.env.SENDGRID_API_KEY)
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
-const msg = {
-  to: 'devazurelab@gmail.com', // Change to your recipient
-  from: 'devazurelab@gmail.com', // Change to your verified sender
-  subject: 'Sending from Azure Order ID: ' + rs["orderid"],
-  html: 'primarySharedKey: '+rs["primarySharedKey"]+'<br>'+'workspaceid: '+rs["workspaceid"]
-}
+    const msg = {
+        to: 'devazurelab@gmail.com', // Change to your recipient
+        from: 'devazurelab@gmail.com', // Change to your verified sender
+        subject: 'Sending from Azure Order ID: ' + rs["orderid"],
+        html: 'primarySharedKey: ' + rs["primarySharedKey"] + '<br>' + 'workspaceid: ' + rs["workspaceid"]
+    }
 
-sgMail
-  .send(msg)
-  .then((response) => {
-    console.log(response[0].statusCode)
-    console.log(response[0].headers)
-  })
-  .catch((error) => {
-    console.error(error)
-  })
+    sgMail
+        .send(msg)
+        .then((response) => {
+            console.log(response[0].statusCode)
+            console.log(response[0].headers)
+        })
+        .catch((error) => {
+            console.error(error)
+        })
 }
 
 app.use("/", router);
