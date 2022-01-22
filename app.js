@@ -105,8 +105,8 @@ router.post('/create_logws', async (request, response) => {
                         
                         response.statusCode = 200;
                         var rs = {
-                            "primarySharedKey":res3.data["primarySharedKey"],
-                            "workspaceid":res2.data["properties"]["customerId"]
+                            "primarySharedKey":res3.data["primarySharedKey"]
+                            //"workspaceid":res.data["properties"]["customerId"]
                         }
                         response.send(rs);
                     })
