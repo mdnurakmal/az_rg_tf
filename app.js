@@ -29,6 +29,7 @@ async function main() {
     const url = "https://" + keyVaultName + ".vault.azure.net";
     const client = new SecretClient(url, credential);
 
+    // same as environment variable set when running forever command
     SECRET = await client.getSecret("api-key").catch(function(err) {
 
         console.log(err);
@@ -216,18 +217,12 @@ router.post('/create', async (request, response) => {
                                     response.send(error);
                                 })
 
-                            // console.log(res2.data["properties"]["customerId"])
-                            // response.send(res2.data["properties"]["customerId"]);
-
                         })
                         .catch(error => {
                             console.error(error)
                             response.statusCode = 440;
                             response.send(error);
                         })
-
-                    // response.statusCode = 200;
-                    // response.send("Resource group created");
                 })
                 .catch(error => {
                     console.error(error)
@@ -253,7 +248,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 const msg = {
   to: 'devazurelab@gmail.com', // Change to your recipient
-  from: 'inexisted@gmail.com', // Change to your verified sender
+  from: 'devazurelab@gmail.com', // Change to your verified sender
   subject: 'Sending from Azure Order ID: ' + rs["orderid"],
   html: 'primarySharedKey: '+rs["primarySharedKey"]+'<br>'+'workspaceid: '+rs["workspaceid"]
 }

@@ -36,12 +36,10 @@ Useful azure cli commands
 az account list
 az login --service-principal -u xxx -p xxx --tenant xxx
 
-sudo AZURE_CLIENT_ID=xxxAZURE_CLIENT_SECRET=xxx AZURE_TENANT_ID=xxx KEY_VAULT_NAME=kv14012022 node app.js
+
 sudo AZURE_CLIENT_ID=xxxAZURE_CLIENT_SECRET=xxx AZURE_TENANT_ID=xxx KEY_VAULT_NAME=kv14012022 SENDGRID_API_KEY=xxx forever start app.js
 ```
 
-Create the following secret in azure
-SENDGRID-API-KEY=<Your API Key>
 export SENDGRID_API_KEY=<Your API Key>
 
 Give registered app access to key vault
