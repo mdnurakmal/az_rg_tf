@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const axios = require('axios');
 const router = express.Router();
 const app = express();
+const sgMail = require('@sendgrid/mail')
 const {
     SecretClient
 } = require("@azure/keyvault-secrets");
@@ -47,6 +48,13 @@ async function main() {
         return;
     });
 
+    SENDGRID_API_KEY = await client.getSecret("SENDGRID-API-KEY").catch(function(err) {
+
+        console.log(err);
+        return;
+    });
+
+
 
 }
 
@@ -66,7 +74,17 @@ router.post('/webhook', (request, response) => {
     response.send("Resource group created");
 });
 
-// create log analytics workspace
+router.post('/email', (request, response) => {
+    var postData = {
+        email: "test@test.com",
+        password: "password"
+    };
+    sendEmail(postData)
+    response.statusCode = 200;
+    response.send("Resource group created");
+});
+
+// create log analytics workspace + get sharede key
 
 router.post('/create_logws', async (request, response) => {
     const params = new URLSearchParams();
@@ -89,42 +107,39 @@ router.post('/create_logws', async (request, response) => {
             var postData = {
                 email: "test@test.com",
                 password: "password"
-              };
-              
+            };
+
             var resourceGroup = request.body["resourceGroup"]
             var orderid = request.body["orderid"]
             // await axios.put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/' + resourceGroup + '/providers/Microsoft.OperationalInsights/workspaces/' + orderid + 'loganalytics?api-version=2021-06-01', {
             //         location: "Switzerland North"
             //     }, config)
             //     .then(async res2 => {
-                    await axios.post('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/swiss_99/providers/Microsoft.OperationalInsights/workspaces/99loganalytics/sharedKeys?api-version=2020-08-01',
+            await axios.post('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/swiss_99/providers/Microsoft.OperationalInsights/workspaces/99loganalytics/sharedKeys?api-version=2020-08-01',
                     postData, config)
-                    .then(async res3 => {
-                        // send primary key to email
-                        //console.log(res2.data["properties"]["customerId"])
-                        
-                        response.statusCode = 200;
-                        var rs = {
-                            "primarySharedKey":res3.data["primarySharedKey"]
-                            //"workspaceid":res.data["properties"]["customerId"]
-                        }
-                        response.send(rs);
-                    })
-                    .catch(error => {
-                        console.error(error)
-                        response.statusCode = 440;
-                        response.send(error);
-                    })
+                .then(async res3 => {
+                    // send primary key to email
+                    //console.log(res2.data["properties"]["customerId"])
 
-                    // console.log(res2.data["properties"]["customerId"])
-                    // response.send(res2.data["properties"]["customerId"]);
+                    response.statusCode = 200;
+                    var rs = {
+                        "primarySharedKey": res3.data["primarySharedKey"]
+                        //"workspaceid":res.data["properties"]["customerId"]
+                    }
+                    response.send(rs);
+                })
+                .catch(error => {
+                    console.error(error)
+                    response.statusCode = 440;
+                    response.send(error);
+                })
 
-                // })
-                // .catch(error => {
-                //     console.error(error)
-                //     response.statusCode = 440;
-                //     response.send(error);
-                // })
+            // })
+            // .catch(error => {
+            //     console.error(error)
+            //     response.statusCode = 440;
+            //     response.send(error);
+            // })
 
 
         })
@@ -157,6 +172,7 @@ router.post('/create', async (request, response) => {
     params.append('client_secret', CLIENTSECRET["value"]);
     params.append('resource', 'https://management.azure.com');
 
+    // get bearer token
     await axios.post('https://login.microsoftonline.com/892d6304-9ee0-4129-bb11-4c98814808d3/oauth2/token', params)
         .then(async res => {
 
@@ -168,6 +184,7 @@ router.post('/create', async (request, response) => {
                 }
             }
 
+            // create resource group
             await axios.put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/' + user + '?api-version=2021-04-01', {
                     location: "Switzerland North"
                 }, config)
@@ -175,45 +192,47 @@ router.post('/create', async (request, response) => {
 
                     var orderid = request.body["id"] + "loganalytics"
 
+                    // create log analytics
                     await axios.put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/' + user + '/providers/Microsoft.OperationalInsights/workspaces/' + orderid + '?api-version=2021-06-01', {
                             location: "Switzerland North"
                         }, config)
                         .then(async res2 => {
 
+                            // dummy data
                             var postData = {
                                 email: "test@test.com",
                                 password: "password"
-                              };
+                            };
 
+                            // get shared key from log analytics
                             await axios.post('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/' + user + '/providers/Microsoft.OperationalInsights/workspaces/' + orderid + '/sharedKeys?api-version=2020-08-01',
-                            postData,config)
-                            .then(res3 => {
-                                // send primary key to email
-                                //console.log(res2.data["properties"]["customerId"])
-                                
-                                response.statusCode = 200;
-                                var rs = {
-                                    "primarySharedKey":res3.data["primarySharedKey"],
-                                    "workspaceid":res2.data["properties"]["customerId"]
-                                }
-                                response.send(rs);
-                            })
-                            .catch(error => {
-                                console.error(error)
-                                response.statusCode = 440;
-                                response.send(error);
-                            })
+                                    postData, config)
+                                .then(res3 => {
+
+                                    // send primary key to email
+                                    response.statusCode = 200;
+                                    var rs = {
+                                        "primarySharedKey": res3.data["primarySharedKey"],
+                                        "workspaceid": res2.data["properties"]["customerId"]
+                                    }
+                                    response.send(rs);
+                                })
+                                .catch(error => {
+                                    console.error(error)
+                                    response.statusCode = 440;
+                                    response.send(error);
+                                })
 
                             // console.log(res2.data["properties"]["customerId"])
                             // response.send(res2.data["properties"]["customerId"]);
-        
+
                         })
                         .catch(error => {
                             console.error(error)
                             response.statusCode = 440;
                             response.send(error);
                         })
-        
+
                     // response.statusCode = 200;
                     // response.send("Resource group created");
                 })
@@ -231,6 +250,32 @@ router.post('/create', async (request, response) => {
         });
 
 });
+
+
+
+function sendEmail(rs)
+{
+
+sgMail.setApiKey(SENDGRID_API_KEY)
+
+const msg = {
+  to: 'inexisted@gmail.com', // Change to your recipient
+  from: 'inexisted@gmail.com', // Change to your verified sender
+  subject: 'Sending with SendGrid is Fun',
+  text: rs,
+  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+}
+
+sgMail
+  .send(msg)
+  .then((response) => {
+    console.log(response[0].statusCode)
+    console.log(response[0].headers)
+  })
+  .catch((error) => {
+    console.error(error)
+  })
+}
 
 app.use("/", router);
 

@@ -15,7 +15,6 @@ az ad sp create-for-rbac --name osba -o table
 sudo AZURE_CLIENT_ID=xxxAZURE_CLIENT_SECRET=xxx AZURE_TENANT_ID=xxx KEY_VAULT_NAME=kv14012022 node app.js
 ```
 
-
 # Extra
 
 Create service principle , assign contributor role 
@@ -41,6 +40,8 @@ sudo AZURE_CLIENT_ID=xxxAZURE_CLIENT_SECRET=xxx AZURE_TENANT_ID=xxx KEY_VAULT_NA
 sudo AZURE_CLIENT_ID=xxxAZURE_CLIENT_SECRET=xxx AZURE_TENANT_ID=xxx KEY_VAULT_NAME=kv14012022 forever start app.js
 ```
 
+Create the following secret in azure
+export SENDGRID_API_KEY=<Your API Key>
 
 # Reference
 https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal
