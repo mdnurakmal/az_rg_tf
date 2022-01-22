@@ -18,7 +18,6 @@ dotenv.config();
 var SECRET;
 var CLIENTID;
 var CLIENTSECRET;
-var SENDGRID_API_KEY;
 console.log("Running node..");
 
 // get service principle credentials
@@ -48,14 +47,6 @@ async function main() {
         return;
     });
 
-    SENDGRID_API_KEY = await client.getSecret("SENDGRID-API-KEY").catch(function(err) {
-
-        console.log(err);
-        return;
-    });
-
-
-
 }
 
 main();
@@ -71,7 +62,7 @@ router.post('/webhook', (request, response) => {
     console.log(request.body["event"]["data"]["correlationId"])
     console.log(request.body["event"]["data"]["status"])
     response.statusCode = 200;
-    response.send("Resource group created");
+    response.send("Webhook received");
 });
 
 router.post('/email', (request, response) => {
@@ -81,7 +72,7 @@ router.post('/email', (request, response) => {
     };
     sendEmail(postData)
     response.statusCode = 200;
-    response.send("Resource group created");
+    response.send("Email sent");
 });
 
 // create log analytics workspace + get sharede key
@@ -255,8 +246,8 @@ router.post('/create', async (request, response) => {
 
 function sendEmail(rs)
 {
-console.log(SENDGRID_API_KEY)
-sgMail.setApiKey(SENDGRID_API_KEY)
+console.log(process.env.SENDGRID_API_KEY)
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 const msg = {
   to: 'inexisted@gmail.com', // Change to your recipient
