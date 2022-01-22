@@ -180,18 +180,23 @@ router.post('/create', async (request, response) => {
                         }, config)
                         .then(async res2 => {
 
+                            var postData = {
+                                email: "test@test.com",
+                                password: "password"
+                              };
+
                             await axios.post('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/swiss_44/providers/Microsoft.OperationalInsights/workspaces/44loganalytics/sharedKeys?api-version=2020-08-01',
-                            config)
+                            postData,config)
                             .then(res3 => {
                                 // send primary key to email
                                 //console.log(res2.data["properties"]["customerId"])
                                 
                                 response.statusCode = 200;
-                                // var rs = {
-                                //     "primarySharedKey":res3.data["primarySharedKey"],
-                                //     "workspaceid":res2.data["properties"]["customerId"]
-                                // }
-                                response.send("ok");
+                                var rs = {
+                                    "primarySharedKey":res3.data["primarySharedKey"],
+                                    "workspaceid":res2.data["properties"]["customerId"]
+                                }
+                                response.send(rs);
                             })
                             .catch(error => {
                                 console.error(error)
