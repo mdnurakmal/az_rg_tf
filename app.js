@@ -19,7 +19,7 @@ var SECRET;
 var CLIENTID;
 var CLIENTSECRET;
 var SENDGRID_API_KEY;
-console.log("Running node");
+console.log("Running node..");
 
 // get service principle credentials
 async function main() {
