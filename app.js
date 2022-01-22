@@ -81,8 +81,8 @@ router.post('/create_logws', async (request, response) => {
 
             const config = {
                 headers: {
-                    "Authorization": 'Bearer ' + res.data["access_token"],
-                    "Content-Type": "application/json"
+                    "Authorization": 'Bearer ' + res.data["access_token"]
+                    //"Content-Type": "application/json"
                 }
             }
 
