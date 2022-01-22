@@ -44,6 +44,8 @@ export SENDGRID_API_KEY=<Your API Key>
 
 Give registered app access to key vault
 
+Change RG name when creating RG
+
 # Reference
 https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal
 
