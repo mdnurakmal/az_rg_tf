@@ -254,7 +254,7 @@ const msg = {
   to: 'inexisted@gmail.com', // Change to your recipient
   from: 'inexisted@gmail.com', // Change to your verified sender
   subject: 'Sending from Azure',
-  html: '<strong>primarySharedKey: '+rs["primarySharedKey"]+'</strong><br>'+'<strong>workspaceid: '+rs["workspaceid"]+'</strong><br>'
+  html: 'primarySharedKey: '+rs["primarySharedKey"]+'<br>'+'workspaceid: '+rs["workspaceid"]
 }
 
 sgMail
