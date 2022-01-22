@@ -253,8 +253,7 @@ const msg = {
   to: 'inexisted@gmail.com', // Change to your recipient
   from: 'inexisted@gmail.com', // Change to your verified sender
   subject: 'Sending with SendGrid is Fun',
-  text: rs["email"],
-  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+  html: '<strong>'+rs["email"]+'</strong>',
 }
 
 sgMail
