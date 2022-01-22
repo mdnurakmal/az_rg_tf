@@ -106,11 +106,11 @@ router.post('/create_logws', async (request, response) => {
             //         location: "Switzerland North"
             //     }, config)
             //     .then(async res2 => {
-            await axios.post('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/swiss_99/providers/Microsoft.OperationalInsights/workspaces/99loganalytics/sharedKeys?api-version=2020-08-01',
+            await axios.post('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/swiss_777/providers/Microsoft.OperationalInsights/workspaces/777loganalytics/sharedKeys?api-version=2020-08-01',
                     postData, config)
                 .then(async res3 => {
                     // send primary key to email
-                    //console.log(res2.data["properties"]["customerId"])
+                    console.log(res3.data)
 
                     response.statusCode = 200;
                     var rs = {
