@@ -26,6 +26,11 @@ Set the following environment variables
 - AZURE_CLIENT_ID
 - AZURE_CLIENT_SECRET
 
+
+# Change these in app.js
+var REGION="Switzerland North"
+var RG_REGION="swiss_";
+
 Get information regarding service principle
 ```
 az ad sp create-for-rbac --name osba -o table 

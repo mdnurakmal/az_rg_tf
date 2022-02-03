@@ -15,6 +15,8 @@ const {
 const dotenv = require("dotenv");
 dotenv.config();
 
+var REGION="Switzerland North"
+var RG_REGION="swiss_";
 var SECRET;
 var CLIENTID;
 var CLIENTSECRET;
@@ -156,7 +158,7 @@ router.post('/', (request, response) => {
 router.post('/create', async (request, response) => {
 
     // get customer name from check out info
-    var user = "swiss_" + request.body["id"];
+    var user = RG_REGION + request.body["id"];
     console.log(user);
     const params = new URLSearchParams();
     params.append('grant_type', 'client_credentials');
@@ -178,7 +180,7 @@ router.post('/create', async (request, response) => {
 
             // create resource group
             await axios.put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/' + user + '?api-version=2021-04-01', {
-                    location: "Switzerland North"
+                    location: REGION
                 }, config)
                 .then(async res1 => {
 
@@ -186,7 +188,7 @@ router.post('/create', async (request, response) => {
 
                     // create log analytics
                     await axios.put('https://management.azure.com/subscriptions/b7c92367-e09f-49dd-b4d7-f9889803f853/resourcegroups/' + user + '/providers/Microsoft.OperationalInsights/workspaces/' + orderid + '?api-version=2021-06-01', {
-                            location: "Switzerland North"
+                            location: REGION
                         }, config)
                         .then(async res2 => {
 
@@ -206,7 +208,8 @@ router.post('/create', async (request, response) => {
                                     var rs = {
                                         "primarySharedKey": res3.data["primarySharedKey"],
                                         "workspaceid": res2.data["properties"]["customerId"],
-                                        "orderid": request.body["id"]
+                                        "orderid": request.body["id"],
+                                        "location": REGION
                                     }
                                     sendEmail(rs);
                                     response.send(rs);
@@ -248,7 +251,7 @@ function sendEmail(rs) {
     const msg = {
         to: 'devazurelab@gmail.com', // Change to your recipient
         from: 'devazurelab@gmail.com', // Change to your verified sender
-        subject: 'Sending from Azure Order ID: ' + rs["orderid"],
+        subject: 'Sending from Azure Order ID: ' + rs["orderid"] + "- " + rs["location"],
         html: 'primarySharedKey: ' + rs["primarySharedKey"] + '<br>' + 'workspaceid: ' + rs["workspaceid"]
     }
 
